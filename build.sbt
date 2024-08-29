@@ -20,10 +20,12 @@ ThisBuild / scalacOptions       ++= Seq("-deprecation")
 // Settings for Sonatype compliance
 ThisBuild / pomIncludeRepository := { _ => false }
 ThisBuild / publishTo := {
+// Rudder repositories
+  val nexus = "https://nexus.normation.com/nexus/content/repositories"
   if (isSnapshot.value) {
-    Some(Opts.resolver.sonatypeSnapshots)
+    Some("snapshots" at nexus + "/snapshots")
   } else {
-    Some(Opts.resolver.sonatypeStaging)
+    Some("releases"  at nexus + "/releases")
   }
 }
 ThisBuild / scmInfo   := Some(ScmInfo(url("https://github.com/lift/framework"), "scm:git:https://github.com/lift/framework.git"))
@@ -35,10 +37,10 @@ initialize := {
   printLogo(name.value, version.value, scalaVersion.value)
 }
 
-ThisBuild / resolvers  ++= Seq(
+/*ThisBuild / resolvers  ++= Seq(
   "snapshots"     at "https://oss.sonatype.org/content/repositories/snapshots",
   "releases"      at "https://oss.sonatype.org/content/repositories/releases"
-)
+)*/
 
 lazy val liftProjects = core ++ web 
 
